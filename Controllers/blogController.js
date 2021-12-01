@@ -9,7 +9,7 @@ const Blog = mongoose.model('blog');
 module.exports.createBlog = (req,res) =>{
     console.log("request", req.body)
         var blog = new Blog();
-        blog.image = req.file.filename;
+        // blog.image = req.file.filename;
         blog.title = req.body.title;
         blog.text = req.body.text;
         blog.author = req.body.author;

@@ -1,10 +1,10 @@
 {
-  "name": "k9website",
+  "name": "dcfarmbackend",
   "version": "1.0.0",
   "description": "backend",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "author": "walter vannoy",
   "license": "ISC",

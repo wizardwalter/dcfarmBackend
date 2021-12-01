@@ -13,7 +13,7 @@ const storage = new CloudinaryStorage({
     params: async (req, file) => {
         console.log("WE HITTTTT", req.body)
         return {
-            folder: 'k9cs',
+            folder: 'dcfarm',
             public_id: file.fieldname + '-' + Date.now()
         }
     }

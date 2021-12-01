@@ -5,27 +5,27 @@ const Admin = require("../Models/admin");
 const bcrypt = require("bcryptjs");
 const enviromentVariable = require("../enviroment_variables.json");
 
-module.exports.createAdmin = (req, res, next) =>{
-     bcrypt.hash(req.body.password, 10).then(hash => {
-            const admin = new Admin({
-              email: req.body.email,
-              password: hash
-            });
-            admin
-              .save()
-              .then(result => {
-                res.status(201).json({
-                  message: "User created!",
-                  result: result
-                });
-              })
-              .catch(err => {
-                res.status(500).json({
-                  error: err
-                });
-              });
-          });
-    };
+// module.exports.createAdmin = (req, res, next) =>{
+//      bcrypt.hash(req.body.password, 10).then(hash => {
+//             const admin = new Admin({
+//               email: req.body.email,
+//               password: hash
+//             });
+//             admin
+//               .save()
+//               .then(result => {
+//                 res.status(201).json({
+//                   message: "User created!",
+//                   result: result
+//                 });
+//               })
+//               .catch(err => {
+//                 res.status(500).json({
+//                   error: err
+//                 });
+//               });
+//           });
+//     };
 
   module.exports.loginAdmin = (req,res,next) =>{
     let fetchedAdmin;

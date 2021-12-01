@@ -9,7 +9,7 @@ const checkAuth = require("../middleware/check-auth");
 
 
 
-router.post("/create", checkAuth, cloud.single("photo"), blogController.createBlog);
+router.post("/create", cloud.single("photo"), blogController.createBlog);
 
 router.get("", blogController.getBlogs);
 
