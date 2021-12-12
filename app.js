@@ -12,6 +12,8 @@ const  mongoose  = require("mongoose");
 
 
 var app = express();
+app.use(express.json({limit: '20000mb'}));
+app.use(express.urlencoded({extended: true, limit:'20000mb'}));
 mongoose.connect(process.env.MONGODB_URI || "mongodb+srv://walter:secret1234@dcfarm.uyemz.mongodb.net/dcfarm?retryWrites=true&w=majority", {useNewUrlParser: true , useUnifiedTopology: true})
     .then(()=>{
         console.log("connection successful");

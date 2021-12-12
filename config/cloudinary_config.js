@@ -19,7 +19,21 @@ const storage = new CloudinaryStorage({
     }
 
 })
+// const storage = new CloudinaryStorage({
+//     cloudinary: cloudinary, 
+//     params: async (req, file) => {
+//         console.log("WE HITTTTT", req.body)
+//         for(var i = 0; i < file.length; i++){
+//             return {
+//                 folder: 'dcfarm',
+//                 public_id: file.fieldname + '-' + Date.now()
+//             }
+//         }
+       
+//     }
 
-var upload = multer({storage: storage}); 
+// })
+
+var upload = multer({storage: storage, limits: { fieldSize: 25 * 1024 * 1024 }}); 
 
 module.exports = upload;

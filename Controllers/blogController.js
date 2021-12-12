@@ -9,7 +9,7 @@ const Blog = mongoose.model('blog');
 module.exports.createBlog = (req,res) =>{
     console.log("request", req.body)
         var blog = new Blog();
-        // blog.image = req.file.filename;
+        blog.image = req.file.filename;
         blog.title = req.body.title;
         blog.text = req.body.text;
         blog.author = req.body.author;
@@ -44,21 +44,37 @@ module.exports.getBlog = (req,res) => {
 
 module.exports.editBlog = (req,res) =>{
     // Once photo upload complete make conditional to check if image = null or not
-    console.log("request", req.body)
+   if(req.file){
     Blog.findByIdAndUpdate(req.params.id,{$set:{
-         _id: req.params.id,
-         image : req.file.filename,
-        title : req.body.title,
-        text : req.body.text,
-        author : req.body.author
-    }},{new:true})
-    .then(result => {
-        console.log(result);
-        res.status(200).json({
-            message: 'update was a success!',
-            updatedBlog: result
-    });
-    })
+        _id: req.params.id,
+        image : req.file.filename,
+       title : req.body.title,
+       text : req.body.text,
+       author : "Danielle Connell"
+   }},{new:true})
+   .then(result => {
+       console.log(result);
+       res.status(200).json({
+           message: 'update was a success!',
+           Blog: result
+   });
+   })
+   }else{
+    Blog.findByIdAndUpdate(req.params.id,{$set:{
+        _id: req.params.id,
+       title : req.body.title,
+       text : req.body.text,
+       author : req.body.author
+   }},{new:true})
+   .then(result => {
+       console.log(result);
+       res.status(200).json({
+           message: 'update was a success!',
+           Blog: result
+   });
+   })
+   }
+    
 };
 
 module.exports.deleteBlog = (req,res) =>{
