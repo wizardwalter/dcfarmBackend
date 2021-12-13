@@ -3,10 +3,10 @@ const express = require("express");
 const cors = require ("cors");
 const passport = require("passport");
 const blogRoute = require("./Routes/blog");
-const aboutRoute = require("./Routes/about");
 const adminRoute = require("./Routes/admin");
 const bodyParser = require("body-parser");
 const  mongoose  = require("mongoose");
+require('dotenv').config()
 
 
 
@@ -14,7 +14,7 @@ const  mongoose  = require("mongoose");
 var app = express();
 app.use(express.json({limit: '20000mb'}));
 app.use(express.urlencoded({extended: true, limit:'20000mb'}));
-mongoose.connect(process.env.MONGODB_URI || "mongodb+srv://walter:secret1234@dcfarm.uyemz.mongodb.net/dcfarm?retryWrites=true&w=majority", {useNewUrlParser: true , useUnifiedTopology: true})
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true , useUnifiedTopology: true})
     .then(()=>{
         console.log("connection successful");
     })
@@ -35,7 +35,6 @@ app.use((req,res,next)=>{
 });
 
 app.use("/blogs", blogRoute);
-app.use("/about", aboutRoute);
 app.use("/admin", adminRoute);
 
 

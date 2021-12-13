@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const Admin = require("../Models/admin");
 const bcrypt = require("bcryptjs");
-const enviromentVariable = require("../enviroment_variables.json");
+require("dotenv").config();
 
 // module.exports.createAdmin = (req, res, next) =>{
 //      bcrypt.hash(req.body.password, 10).then(hash => {
@@ -27,38 +27,42 @@ const enviromentVariable = require("../enviroment_variables.json");
 //           });
 //     };
 
-  module.exports.loginAdmin = (req,res,next) =>{
-    let fetchedAdmin;
-    Admin.findOne({ email: req.body.email })
-      .then(admin => {
-        if (!admin) {
-          return res.status(401).json({
-            message: "Auth failed 1"
-          });
-        }
-        fetchedAdmin = admin;
-          return bcrypt.compare(req.body.password, admin.password)
-      })
-          .then (result => {
-              if (!result) {
-                return res.status(401).json({
-                  message: "Auth failed 2 "
-                });
-              }
-              const token = jwt.sign(
-                { email: fetchedAdmin.email, adminId: fetchedAdmin._id },
-                enviromentVariable["jwt-secret"],
-                { expiresIn: "1d" }
-              );
-              res.status(200).json({
-                token: token,
-                expiresIn: 3600
-              });
-            })
-            .catch(err => {
-              return res.status(401).json({
-                message: "Auth failed 3",
-                error: err
-              });
-            });
-  };
+module.exports.loginAdmin = (req, res, next) => {
+  let fetchedAdmin;
+  Admin.findOne({ email: req.body.email })
+    .then((admin) => {
+      fetchedAdmin = admin;
+      return bcrypt.compare(req.body.password, admin.password);
+    })
+    .then((result) => {
+      if (!result) {
+        return res.json({
+          ok: false,
+          message: "Wrong password please try again",
+        });
+      }
+      const token = jwt.sign(
+        { email: fetchedAdmin.email, adminId: fetchedAdmin._id },
+        process.env.jwt_secret,
+        { expiresIn: 50000 }
+      );
+      res.status(200).json({
+        message: "Success",
+        ok: true,
+        token: token,
+        expiresIn: 3600,
+      });
+    })
+    .catch((err) => {
+      return res.json({
+        ok: false,
+        message: "Wrong Email",
+      });
+    })
+    .catch((err) => {
+      return res.json({
+        ok: false,
+        message: "Are you trying to hack me?",
+      });
+    });
+};
